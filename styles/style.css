@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.filters {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 25px;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.filter-btn:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: #667eea;
+    color: white;
+}
+
+.foiv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.foiv-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+}
+
+.foiv-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.foiv-header {
+    margin-bottom: 15px;
+}
+
+.foiv-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.foiv-sphere {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: white;
+}
+
+.sphere-political { background-color: #e74c3c; }
+.sphere-economic { background-color: #27ae60; }
+.sphere-social { background-color: #3498db; }
+.sphere-other { background-color: #9b59b6; }
+
+.territorial-organs {
+    margin-top: 15px;
+}
+
+.organ-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.organ-item {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid #667eea;
+    transition: background-color 0.2s ease;
+}
+
+.organ-item:hover {
+    background-color: #e9ecef;
+}
+
+.organ-link {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.organ-link:hover {
+    color: #667eea;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .foiv-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+    }
+}
