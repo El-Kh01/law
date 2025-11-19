@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Структура государственных органов РФ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            height: fit-content;
+        }
+        
+        .org-list {
+            list-style: none;
+        }
+        
+        .org-item {
+            margin-bottom: 12px;
+        }
+        
+        .org-link {
+            display: block;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .org-link:hover, .org-link.active {
+            background: #3b82f6;
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .details-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            min-height: 600px;
+        }
+        
+        .foiv-title {
+            color: #1e40af;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: #1e40af;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "▶";
+            margin-right: 10px;
+            color: #3b82f6;
+            font-size: 0.9rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+        
+        .card-content {
+            color: #475569;
+            line-height: 1.5;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .details-panel {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Структура государственных органов РФ</h1>
+            <p class="subtitle">Федеральные органы исполнительной власти и их территориальные структуры</p>
+        </header>
+        
+        <div class="content">
+            <aside class="sidebar">
+                <h2 style="margin-bottom: 20px; color: #1e40af;">Органы власти</h2>
+                <ul class="org-list" id="orgList">
+                    <!-- Список будет заполнен JavaScript -->
+                </ul>
+            </aside>
+            
+            <main class="details-panel" id="detailsPanel">
+                <div class="loading" id="loadingMessage">
+                    Выберите орган власти для просмотра информации
+                </div>
+                <div id="foivDetails" style="display: none;">
+                    <!-- Детали будут загружены динамически -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ШАБЛОН для отображения информации о ФОИВ -->
+    <template id="foivTemplate">
+        <h1 class="foiv-title" id="foivName">Название ФОИВ</h1>
+        
+        <div class="section">
+            <h2 class="section-title">Основные сведения</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="card-title">Статус</div>
+                    <div class="card-content" id="foivStatus">Федеральный орган исполнительной власти</div>
+                </div>
+                <div class="info-card">
+                    <div class="card-title">Руководитель</div>
+                    <div class="card-content" id="foivHead">Информация о руководителе</div>
+                </div>
+                <div class="info-card">
+                    <div class="card-title">Год основания</div>
+                    <div class="card-content" id="foivYear">XXXX</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Основные функции</h2>
+            <div class="info-card">
+                <div class="card-content" id="foivFunctions">Описание функций</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Территориальные органы</h2>
+            <div class="info-grid" id="territorialOrgs">
+                <!-- Будет заполнено динамически -->
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Нормативные документы</h2>
+            <div class="info-card">
+                <div class="card-content" id="foivDocuments">Список документов</div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // МОДЕЛЬ ДАННЫХ - здесь хранится информация о всех ФОИВах
+        const governmentData = {
+            // Пример данных для МИД России
+            "mid": {
+                name: "Министерство иностранных дел Российской Федерации (МИД России)",
+                status: "Федеральный орган исполнительной власти",
+                head: "Министр иностранных дел",
+                year: "1802",
+                functions: "Осуществление функций по выработке и реализации государственной политики и нормативно-правовому регулированию в сфере международных отношений Российской Федерации.",
+                documents: "Указ Президента РФ от 11.07.2004 N 865, Федеральный закон от 15.07.1995 N 101-ФЗ «О международных договорах Российской Федерации»",
+                territorial: [
+                    { name: "Представительство МИД России в Санкт-Петербурге", region: "Санкт-Петербург" },
+                    { name: "Представительство МИД России в Калининграде", region: "Калининградская область" },
+                    { name: "Представительство МИД России в Екатеринбурге", region: "Свердловская область" },
+                    { name: "Представительство МИД России в Нижнем Новгороде", region: "Нижегородская область" },
+                    { name: "Представительство МИД России в Новосибирске", region: "Новосибирская область" },
+                    { name: "Представительство МИД России в Ростове-на-Дону", region: "Ростовская область" },
+                    { name: "Представительство МИД России в Хабаровске", region: "Хабаровский край" },
+                    { name: "Представительство МИД России во Владивостоке", region: "Приморский край" }
+                ]
+            },
+            
+            // ПРИМЕР: можно добавить другие ФОИВы по аналогии
+            "minjust": {
+                name: "Министерство юстиции Российской Федерации",
+                status: "Федеральный орган исполнительной власти",
+                head: "Министр юстиции",
+                year: "1802",
+                functions: "Осуществление функций по выработке и реализации государственной политики и нормативно-правовому регулированию в сфере юстиции.",
+                documents: "Положение о Министерстве юстиции Российской Федерации",
+                territorial: [
+                    { name: "Управление Минюста России по Москве", region: "Москва" },
+                    { name: "Управление Минюста России по Московской области", region: "Московская область" }
+                ]
+            }
+            
+            // ДОБАВЛЯЙТЕ НОВЫЕ ФОИВы ЗДЕСЬ по приведенному шаблону
+        };
+
+        // Заполняем список органов власти
+        function loadOrgList() {
+            const orgList = document.getElementById('orgList');
+            orgList.innerHTML = '';
+            
+            for (const key in governmentData) {
+                const org = governmentData[key];
+                const li = document.createElement('li');
+                li.className = 'org-item';
+                
+                const link = document.createElement('a');
+                link.href = '#';
+                link.className = 'org-link';
+                link.textContent = org.name;
+                link.dataset.orgId = key;
+                
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadOrgDetails(this.dataset.orgId);
+                    
+                    // Убираем активный класс у всех ссылок
+                    document.querySelectorAll('.org-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    // Добавляем активный класс к текущей ссылке
+                    this.classList.add('active');
+                });
+                
+                li.appendChild(link);
+                orgList.appendChild(li);
+            }
+        }
+
+        // Загружаем детальную информацию об органе власти
+        function loadOrgDetails(orgId) {
+            const org = governmentData[orgId];
+            if (!org) return;
+            
+            const detailsPanel = document.getElementById('detailsPanel');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const foivDetails = document.getElementById('foivDetails');
+            
+            loadingMessage.style.display = 'none';
+            foivDetails.style.display = 'block';
+            
+            // Клонируем шаблон
+            const template = document.getElementById('foivTemplate');
+            const clone = template.content.cloneNode(true);
+            
+            // Заполняем данными
+            clone.getElementById('foivName').textContent = org.name;
+            clone.getElementById('foivStatus').textContent = org.status;
+            clone.getElementById('foivHead').textContent = org.head;
+            clone.getElementById('foivYear').textContent = org.year;
+            clone.getElementById('foivFunctions').textContent = org.functions;
+            clone.getElementById('foivDocuments').textContent = org.documents;
+            
+            // Заполняем информацию о территориальных органах
+            const territorialContainer = clone.getElementById('territorialOrgs');
+            if (org.territorial && org.territorial.length > 0) {
+                org.terratiorial.forEach(terrOrg => {
+                    const card = document.createElement('div');
+                    card.className = 'info-card';
+                    card.innerHTML = `
+                        <div class="card-title">${terrOrg.name}</div>
+                        <div class="card-content">${terrOrg.region}</div>
+                    `;
+                    territorialContainer.appendChild(card);
+                });
+            } else {
+                territorialContainer.innerHTML = '<div class="card-content">Территориальные органы отсутствуют</div>';
+            }
+            
+            // Очищаем и добавляем новое содержимое
+            foivDetails.innerHTML = '';
+            foivDetails.appendChild(clone);
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrgList();
+            
+            // Автоматически загружаем первый ФОИВ в списке
+            const firstOrg = Object.keys(governmentData)[0];
+            if (firstOrg) {
+                loadOrgDetails(firstOrg);
+                // Активируем первую ссылку
+                const firstLink = document.querySelector(`.org-link[data-org-id="${firstOrg}"]`);
+                if (firstLink) {
+                    firstLink.classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
